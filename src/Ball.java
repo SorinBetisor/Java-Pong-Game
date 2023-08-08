@@ -9,8 +9,8 @@ public class Ball extends JLabel {
     final static int BASIC_VEL = 7;
     int CX = 10;
     int CY = 10;
-    Integer[] possibleSpeedX = {-10,10,-11,11};
-    Integer[] possibleSpeedY = {-9,9,-10,10,-11,11};
+    Integer[] possibleSpeedX = {-10,10};
+    Integer[] possibleSpeedY = {-10,10};
     java.util.Random random = new java.util.Random();
 
     private int diameter;
@@ -55,11 +55,9 @@ public class Ball extends JLabel {
     public void bounceOffEdges() {
         if (this.getX() <= 0) {
             Game.loose = true;
-            reverseX();
         }
 
         else if (this.getX() >= Window.getSCREEN_WIDTH() - 2 * BALL_WIDTH) {
-            reverseX();
             Game.win = true;
         }
 
@@ -81,13 +79,6 @@ public class Ball extends JLabel {
     }
 
     // getters
-    public int getX() {
-        return super.getX();
-    }
-
-    public int getY() {
-        return super.getY();
-    }
 
     public static int getBallWidth() {
         return BALL_WIDTH;

@@ -1,20 +1,13 @@
 import javax.swing.*;
 import java.awt.Color;
 
-public class Window {
+public class Window extends JFrame {
 
     final static int SCREEN_HEIGHT = 720;
-    final static int SCREEN_WIDTH = 1080;
-    private MyFrame frame;    
+    final static int SCREEN_WIDTH = 1080;   
 
-    Window()
-    {
-        frame = new MyFrame();
-    }
 
-    public class MyFrame extends JFrame {
-
-        MyFrame() {
+        Window() {
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
             this.setLayout(null);
@@ -23,7 +16,6 @@ public class Window {
             this.setTitle("Pong");
             this.setVisible(true); 
         }
-    }
 
     public static int getSCREEN_HEIGHT() {
         return SCREEN_HEIGHT;
@@ -33,7 +25,7 @@ public class Window {
         return SCREEN_WIDTH;
     }
     
-    public MyFrame getFrame() {
-        return frame;
+    public Window getFrame() {
+        return this;
     }
 }

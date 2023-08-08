@@ -26,37 +26,41 @@ public class Game implements KeyListener {
     private Label looseLabel = new Label("You lost :(");
     private Label descriptiveLooseLabel = new Label("Press 'R' to restart");
 
+    private Menu menu = new Menu();
+
     Game() {
+        initializeComponents();
+    }
+
+    public void initializeComponents() {
         playerOne = new Player();
         aiBot = new Player();
         ball = new Ball(10, Color.RED);
         window = new Window();
-        window.getFrame().addKeyListener(this);
+        window.addKeyListener(this);
 
-        SwingUtilities.invokeLater(() -> {
-            window.getFrame();
-        });
-
-        playerOne.addToComponent(70, 270, window.getFrame());
-
-        aiBot.addToComponent(980, 270, window.getFrame());
-
-        ball.addToComponent(ballStartingX, ballStartingY, window.getFrame());
+        playerOne.addToComponent(70, 270, window);
+        aiBot.addToComponent(980, 270, window);
+        ball.addToComponent(ballStartingX, ballStartingY, window);
 
         scoreLabel.setForeground(Color.YELLOW);
         scoreLabel.setFont(new Font("Serif", Font.BOLD, 20));
-        scoreLabel.addToComponent(500, 0, window.getFrame());
+        scoreLabel.addToComponent(500, 0, window);
 
         looseLabel.setForeground(Color.RED);
         looseLabel.setFont(new Font("Serif", Font.BOLD, 40));
 
         descriptiveLooseLabel.setForeground(Color.RED);
-        descriptiveLooseLabel.setFont(new Font("Serif",Font.ITALIC,20));
+        descriptiveLooseLabel.setFont(new Font("Serif", Font.ITALIC, 20));
+
+        // ADDING THE MENU
+        // menu.setBounds(0, 0, Window.getSCREEN_WIDTH(), Window.getSCREEN_HEIGHT());
+        // menu.setVisible(true);
+        // window.add(menu);
     }
 
     public void run() {
         this.update();
-        this.render();
     }
 
     public void update() {
@@ -82,8 +86,8 @@ public class Game implements KeyListener {
                     ball.CX = 0;
                     ball.CY = 0;
                     Player.stopBot(aiBot);
-                    looseLabel.addToComponent(450, 240, window.getFrame());
-                    descriptiveLooseLabel.addToComponent(460, 280,window.getFrame());
+                    looseLabel.addToComponent(450, 240, window);
+                    descriptiveLooseLabel.addToComponent(460, 280, window);
                     looseLabel.setVisible(true);
                     descriptiveLooseLabel.setVisible(true);
                 }
@@ -91,10 +95,6 @@ public class Game implements KeyListener {
         });
 
         timer.start();
-    }
-
-    public void render() {
-
     }
 
     public boolean checkCollisionWithPaddles(Player player) {
@@ -109,23 +109,19 @@ public class Game implements KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
-    @Override
     public void keyPressed(KeyEvent e) {
         playerOne.move(e);
 
         if (e.getKeyCode() == 27) {
-            window.getFrame().setVisible(false);
-            window.getFrame().dispose();
+            window.setVisible(false);
+            window.dispose();
             timer.stop();
-        } else if (e.getKeyChar() == 'r') {
+       } else if (e.getKeyChar() == 'r') {
             if (loose == true) {
                 ball.centerBall();
                 timer.stop();
                 this.update();
-                score=0;
+                score = 0;
                 scoreLabel.updateScore();
                 looseLabel.setVisible(false);
                 descriptiveLooseLabel.setVisible(false);
@@ -134,11 +130,7 @@ public class Game implements KeyListener {
         }
     }
 
-    @Override
-    public void keyReleased(KeyEvent e) {
-    }
-
-    // getters
+    // getters and unused Overrides
     public static int getBallStartingY() {
         return ballStartingY;
     }
@@ -154,4 +146,13 @@ public class Game implements KeyListener {
     public static boolean isWin() {
         return win;
     }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
+
+      @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
 }

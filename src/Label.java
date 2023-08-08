@@ -12,16 +12,17 @@ public class Label extends JLabel
         this.setText(text);
         currentText = text;
     }
-    
+    public void updateScore()
+    {
+        currentText = String.format("%s %d","Score:",Game.score);
+        this.setText(currentText);
+    }
+
+      
     public void addToComponent(int x,int y,JFrame component)
     {
         this.setBounds(x,y,labelWidth,labelHeight);
         component.add(this);
     }
 
-    public void updateScore()
-    {
-        currentText = String.format("%s %d","Score:",Game.score);
-        this.setText(currentText);
-    }
 }

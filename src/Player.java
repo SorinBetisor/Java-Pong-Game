@@ -5,9 +5,9 @@ import java.awt.event.KeyEvent;
 
 public class Player extends JLabel {
     static final int PLAYER_HEIGHT = 115;
-    final static int BASIC_VEL = 7;
+    static final int BASIC_VEL = 7;
     static final int PLAYER_WIDTH = 15;
-    final static int BOT_VEL = 9;
+    static final int BOT_VEL = 9;
 
     Player() {
         this.setBackground(Color.WHITE);
@@ -59,9 +59,7 @@ public class Player extends JLabel {
         bot.setLocation(980,270);
     }
 
-    public int getBasicVel() {
-        return BASIC_VEL;
-    }
+    //getters
 
     public static int getPlayerHeight() {
         return PLAYER_HEIGHT;
@@ -71,8 +69,6 @@ public class Player extends JLabel {
         return PLAYER_WIDTH;
     }
 
-    public void setLocation(int x, int y) {
-        super.setBounds(x, y, PLAYER_WIDTH, PLAYER_HEIGHT);
-    }
+
 
 }
