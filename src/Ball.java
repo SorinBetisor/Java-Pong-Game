@@ -9,8 +9,9 @@ public class Ball extends JLabel {
     final static int BASIC_VEL = 7;
     int CX = 10;
     int CY = 10;
-    Integer[] possibleSpeedX = {-10,10};
-    Integer[] possibleSpeedY = {-10,10};
+    public static Integer[] possibleSpeedX = {-10,10};
+    public static Integer[] possibleSpeedY = {-10,10};
+    
     java.util.Random random = new java.util.Random();
 
     private int diameter;
@@ -78,7 +79,7 @@ public class Ball extends JLabel {
         CY *= -1;
     }
 
-    // getters
+    // getters and setters
 
     public static int getBallWidth() {
         return BALL_WIDTH;
@@ -87,4 +88,13 @@ public class Ball extends JLabel {
     public static int getBallHeight() {
         return BALL_HEIGHT;
     }
+
+    public static void setPossibleSpeedX(Integer[] possibleSpeedX) {
+        Ball.possibleSpeedX = possibleSpeedX;
+    }
+
+    public static void setPossibleSpeedY(Integer[] possibleSpeedY) {
+        Ball.possibleSpeedY = possibleSpeedY;
+    }
+
 }

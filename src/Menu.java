@@ -1,45 +1,89 @@
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 
 public class Menu extends Container {
-    private int menuLabelWidth = 400;
-    private int menuLabelHeight = 300;
 
-    private Label selectLabel = new Label("Select difficulty:");
-    private Label easyLabel = new Label("EASY");
-    private Label mediumLabel = new Label("MEDIUM");
-    private Label hardLabel = new Label("HARD");
+    private final int BUTTON_HEIGHT = 50;
+    private final int BUTTON_WIDTH = 200;
+
+    private static JLabel selectLabel = new JLabel("Select difficulty:");
+    private static JButton easyButton = new JButton("EASY", null);
+    private static JButton mediumButton = new JButton("MEDIUM", null);
+    private static JButton hardButton = new JButton("HARD", null);
 
     Menu() {
+        easyButton.setFocusable(false);
+        mediumButton.setFocusable(false);
+        hardButton.setFocusable(false);
+
         setMenuFont(selectLabel);
-        setMenuFont(easyLabel);
-        setMenuFont(mediumLabel);
-        setMenuFont(hardLabel);
+        setMenuFont(easyButton);
+        setMenuFont(mediumButton);
+        setMenuFont(hardButton);
 
-        // selectLabel.setForeground(Color.WHITE);
-        easyLabel.setForeground(Color.GREEN);
-        mediumLabel.setForeground(Color.YELLOW);
-        hardLabel.setForeground(Color.RED);
+        selectLabel.setForeground(Color.WHITE);
+        easyButton.setForeground(Color.GREEN.darker());
+        mediumButton.setForeground(Color.ORANGE);
+        hardButton.setForeground(Color.RED.darker());
 
-        // selectLabel.setBounds(300, 0, menuLabelWidth, menuLabelHeight);
-        easyLabel.setBounds(400, 0, menuLabelWidth, menuLabelHeight);
-        mediumLabel.setBounds(400, 200, menuLabelWidth, menuLabelHeight);
-        hardLabel.setBounds(400, 400, menuLabelWidth, menuLabelHeight);
+        selectLabel.setBounds(400, 150, 500, BUTTON_HEIGHT);
+        easyButton.setBounds(440, 250, BUTTON_WIDTH, BUTTON_HEIGHT);
+        mediumButton.setBounds(440, 350, BUTTON_WIDTH, BUTTON_HEIGHT);
+        hardButton.setBounds(440, 450, BUTTON_WIDTH, BUTTON_HEIGHT);
 
-        addLabelsToContainer(this);
+        addClickListener();
     }
 
-    private void setMenuFont(Label label) {
-        label.setFont(new Font("SansSerif", Font.BOLD, 60));
+    private void setMenuFont(JComponent label) {
+        label.setFont(new Font("SansSerif", Font.BOLD, 40));
     }
 
     public void addLabelsToContainer(Container container) {
-        // container.add(selectLabel);
-        container.add(easyLabel);
-        container.add(mediumLabel);
-        container.add(hardLabel);
+        container.add(selectLabel);
+        container.add(easyButton);
+        container.add(mediumButton);
+        container.add(hardButton);
+    }
+
+    public void addClickListener() {
+        easyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Game.setCurrentDifficulty(0);
+                System.out.println(Difficulty.getDifficultyName(Game.getCurrentDifficulty()));
+                Game.setState(GameState.PLAY);
+            }
+        });
+        mediumButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Game.setCurrentDifficulty(1);
+                System.out.println(Difficulty.getDifficultyName(Game.getCurrentDifficulty()));
+                Game.setState(GameState.PLAY);
+            }
+        });
+        hardButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Game.setCurrentDifficulty(2);
+                System.out.println(Difficulty.getDifficultyName(Game.getCurrentDifficulty()));
+                Game.setState(GameState.PLAY);
+            }
+        });
+    }
+
+    public static void hideMenu()
+    {
+        selectLabel.setVisible(false);
+        easyButton.setVisible(false);
+        mediumButton.setVisible(false);
+        hardButton.setVisible(false);
     }
 
 }

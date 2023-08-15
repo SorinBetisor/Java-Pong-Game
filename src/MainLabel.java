@@ -1,13 +1,13 @@
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class Label extends JLabel 
+public class MainLabel extends JLabel 
 {
     private int labelWidth = 200;
     private int labelHeight = 100;
     private static String currentText;
 
-    Label(String text)
+    MainLabel(String text)
     {
         this.setText(text);
         currentText = text;

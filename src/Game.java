@@ -7,6 +7,10 @@ import java.awt.event.KeyListener;
 
 import javax.swing.*;
 
+enum GameState {
+    MENU, PLAY, PAUSE;
+}
+
 public class Game implements KeyListener {
     private Timer timer;
 
@@ -14,6 +18,7 @@ public class Game implements KeyListener {
     private Player aiBot;
     private Ball ball;
     private Window window;
+    private static GameState state;
 
     private static int ballStartingX = (Window.getSCREEN_WIDTH() / 2) - Ball.getBallWidth();
     private static int ballStartingY = Window.getSCREEN_HEIGHT() / 2 - Ball.getBallHeight() / 2;
@@ -22,13 +27,19 @@ public class Game implements KeyListener {
     public static boolean win = false;
     public static boolean loose = false;
 
-    private Label scoreLabel = new Label("Score: 0");
-    private Label looseLabel = new Label("You lost :(");
-    private Label descriptiveLooseLabel = new Label("Press 'R' to restart");
+    public static int currentDifficulty = -1; // default
 
-    private Menu menu = new Menu();
+    public Menu menu = new Menu();
+
+    private MainLabel scoreLabel = new MainLabel("Score: 0");
+    private MainLabel looseLabel = new MainLabel("You lost :(");
+    private MainLabel descriptiveLooseLabel = new MainLabel("Press 'R' to restart");
 
     Game() {
+        window = new Window();
+        window.addKeyListener(this);
+        state = GameState.MENU;
+        menu.addLabelsToContainer(window.getContentPane());
         initializeComponents();
     }
 
@@ -36,8 +47,6 @@ public class Game implements KeyListener {
         playerOne = new Player();
         aiBot = new Player();
         ball = new Ball(10, Color.RED);
-        window = new Window();
-        window.addKeyListener(this);
 
         playerOne.addToComponent(70, 270, window);
         aiBot.addToComponent(980, 270, window);
@@ -52,15 +61,10 @@ public class Game implements KeyListener {
 
         descriptiveLooseLabel.setForeground(Color.RED);
         descriptiveLooseLabel.setFont(new Font("Serif", Font.ITALIC, 20));
-
-        // ADDING THE MENU
-        // menu.setBounds(0, 0, Window.getSCREEN_WIDTH(), Window.getSCREEN_HEIGHT());
-        // menu.setVisible(true);
-        // window.add(menu);
     }
 
     public void run() {
-        this.update();
+            this.update();
     }
 
     public void update() {
@@ -68,6 +72,10 @@ public class Game implements KeyListener {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(state==GameState.PLAY){
+                Menu.hideMenu();
+                Difficulty.setDifficultyVelocities(currentDifficulty);
+
                 ball.moveBall(ball.getX() + ball.CX, ball.getY() + ball.CY);
                 ball.bounceOffEdges();
                 if (checkCollisionWithPaddles(playerOne) || checkCollisionWithPaddles(aiBot)) {
@@ -91,7 +99,7 @@ public class Game implements KeyListener {
                     looseLabel.setVisible(true);
                     descriptiveLooseLabel.setVisible(true);
                 }
-            }
+            }}
         });
 
         timer.start();
@@ -110,13 +118,10 @@ public class Game implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if(state==GameState.PLAY){
         playerOne.move(e);
 
-        if (e.getKeyCode() == 27) {
-            window.setVisible(false);
-            window.dispose();
-            timer.stop();
-       } else if (e.getKeyChar() == 'r') {
+         if (e.getKeyChar() == 'r') {
             if (loose == true) {
                 ball.centerBall();
                 timer.stop();
@@ -127,6 +132,12 @@ public class Game implements KeyListener {
                 descriptiveLooseLabel.setVisible(false);
                 loose = false;
             }
+        }}
+
+        if (e.getKeyCode() == 27) {
+            window.setVisible(false);
+            window.dispose();
+            timer.stop();
         }
     }
 
@@ -151,8 +162,24 @@ public class Game implements KeyListener {
     public void keyReleased(KeyEvent e) {
     }
 
-      @Override
+    @Override
     public void keyTyped(KeyEvent e) {
+    }
+
+    public static int getCurrentDifficulty() {
+        return currentDifficulty;
+    }
+
+    public static void setCurrentDifficulty(int newDiff) {
+        currentDifficulty = newDiff;
+    }
+
+    public static void setState(GameState state) {
+        Game.state = state;
+    }
+
+    public static GameState getState() {
+        return state;
     }
 
 }

@@ -8,15 +8,19 @@ public class Window extends JFrame {
 
 
         Window() {
+
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
             this.setLayout(null);
             this.setLocationRelativeTo(null);
             this.getContentPane().setBackground(Color.BLACK);
             this.setTitle("Pong");
+
             this.setVisible(true); 
         }
 
+
+    //getters
     public static int getSCREEN_HEIGHT() {
         return SCREEN_HEIGHT;
     }
