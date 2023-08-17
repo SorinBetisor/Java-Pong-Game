@@ -34,6 +34,7 @@ public class Game implements KeyListener {
     private MainLabel scoreLabel = new MainLabel("Score: 0");
     private MainLabel looseLabel = new MainLabel("You lost :(");
     private MainLabel descriptiveLooseLabel = new MainLabel("Press 'R' to restart");
+    private MainLabel pauseLabel = new MainLabel("PAUSED");
 
     Game() {
         window = new Window();
@@ -61,10 +62,16 @@ public class Game implements KeyListener {
 
         descriptiveLooseLabel.setForeground(Color.RED);
         descriptiveLooseLabel.setFont(new Font("Serif", Font.ITALIC, 20));
+
+        pauseLabel.setForeground(Color.WHITE);
+        pauseLabel.setFont(new Font("Serif", Font.BOLD, 40));
+        pauseLabel.addToComponent(450, 600, window);
+        pauseLabel.setVisible(false);
+
     }
 
     public void run() {
-            this.update();
+        this.update();
     }
 
     public void update() {
@@ -72,34 +79,35 @@ public class Game implements KeyListener {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(state==GameState.PLAY){
-                Menu.hideMenu();
-                Difficulty.setDifficultyVelocities(currentDifficulty);
+                if (state == GameState.PLAY) {
+                    Menu.hideMenu();
+                    Difficulty.setDifficultyVelocities(currentDifficulty);
 
-                ball.moveBall(ball.getX() + ball.CX, ball.getY() + ball.CY);
-                ball.bounceOffEdges();
-                if (checkCollisionWithPaddles(playerOne) || checkCollisionWithPaddles(aiBot)) {
-                    ball.CX *= -1;
-                }
-                Player.botMove(aiBot, ball);
+                    ball.moveBall(ball.getX() + Ball.CX, ball.getY() + Ball.CY);
+                    ball.bounceOffEdges();
+                    if (checkCollisionWithPaddles(playerOne) || checkCollisionWithPaddles(aiBot)) {
+                        Ball.CX *= -1;
+                    }
+                    Player.botMove(aiBot, ball);
 
-                if (win) {
-                    score += 1;
-                    scoreLabel.updateScore();
-                    ball.centerBall();
-                    win = false;
-                }
+                    if (win) {
+                        score += 1;
+                        scoreLabel.updateScore();
+                        ball.centerBall();
+                        win = false;
+                    }
 
-                if (loose) {
-                    ball.CX = 0;
-                    ball.CY = 0;
-                    Player.stopBot(aiBot);
-                    looseLabel.addToComponent(450, 240, window);
-                    descriptiveLooseLabel.addToComponent(460, 280, window);
-                    looseLabel.setVisible(true);
-                    descriptiveLooseLabel.setVisible(true);
+                    if (loose) {
+                        Ball.CX = 0;
+                        Ball.CY = 0;
+                        Player.stopBot(aiBot);
+                        looseLabel.addToComponent(450, 240, window);
+                        descriptiveLooseLabel.addToComponent(460, 280, window);
+                        looseLabel.setVisible(true);
+                        descriptiveLooseLabel.setVisible(true);
+                    }
                 }
-            }}
+            }
         });
 
         timer.start();
@@ -118,26 +126,41 @@ public class Game implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if(state==GameState.PLAY){
-        playerOne.move(e);
+        if (state == GameState.PLAY) {
+            playerOne.move(e);
 
-         if (e.getKeyChar() == 'r') {
-            if (loose == true) {
-                ball.centerBall();
-                timer.stop();
-                this.update();
-                score = 0;
-                scoreLabel.updateScore();
-                looseLabel.setVisible(false);
-                descriptiveLooseLabel.setVisible(false);
-                loose = false;
+            if (e.getKeyChar() == 'r') {
+                if (loose == true) {
+                    ball.centerBall();
+                    timer.stop();
+                    this.update();
+                    score = 0;
+                    scoreLabel.updateScore();
+                    looseLabel.setVisible(false);
+                    descriptiveLooseLabel.setVisible(false);
+                    loose = false;
+                }
             }
-        }}
+        }
 
         if (e.getKeyCode() == 27) {
             window.setVisible(false);
             window.dispose();
             timer.stop();
+        }
+
+        else if (e.getKeyCode() == 32) {
+            if (state == GameState.PLAY) {
+                state = GameState.PAUSE;
+                Ball.freezeBall();
+                pauseLabel.setVisible(true);
+                timer.stop();
+            } else if (state == GameState.PAUSE) {
+                timer.start();
+                state = GameState.PLAY;
+                pauseLabel.setVisible(false);
+                Ball.unfreezeBall();
+            }
         }
     }
 

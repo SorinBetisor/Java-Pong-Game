@@ -5,9 +5,9 @@ import java.awt.event.KeyEvent;
 
 public class Player extends JLabel {
     static final int PLAYER_HEIGHT = 115;
-    static final int BASIC_VEL = 7;
     static final int PLAYER_WIDTH = 15;
-    static final int BOT_VEL = 9;
+    public static int BASIC_VEL = 7;
+    public static int BOT_VEL = 9;
 
     Player() {
         this.setBackground(Color.WHITE);
@@ -41,25 +41,21 @@ public class Player extends JLabel {
 
     public static void botMove(Player bot, Ball ball) {
         if (bot.getY() < ball.getY()) {
-            if (bot.getY() < Window.getSCREEN_HEIGHT() - PLAYER_HEIGHT * 1.4) 
-            {
+            if (bot.getY() < Window.getSCREEN_HEIGHT() - PLAYER_HEIGHT * 1.4) {
                 bot.setLocation(bot.getX(), bot.getY() + BOT_VEL);
             }
-        } else if (bot.getY() > ball.getY()) 
-        {
-            if(bot.getY()>0)
-            {
-            bot.setLocation(bot.getX(), bot.getY() - BOT_VEL);
-        }
+        } else if (bot.getY() > ball.getY()) {
+            if (bot.getY() > 0) {
+                bot.setLocation(bot.getX(), bot.getY() - BOT_VEL);
+            }
         }
     }
 
-    public static void stopBot(Player bot)
-    {
-        bot.setLocation(980,270);
+    public static void stopBot(Player bot) {
+        bot.setLocation(980, 270);
     }
 
-    //getters
+    // getters
 
     public static int getPlayerHeight() {
         return PLAYER_HEIGHT;
@@ -69,6 +65,12 @@ public class Player extends JLabel {
         return PLAYER_WIDTH;
     }
 
+    public static void setBASIC_VEL(int bASIC_VEL) {
+        BASIC_VEL = bASIC_VEL;
+    }
 
+    public static void setBOT_VEL(int bOT_VEL) {
+        BOT_VEL = bOT_VEL;
+    }
 
 }

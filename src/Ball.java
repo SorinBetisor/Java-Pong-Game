@@ -7,12 +7,14 @@ public class Ball extends JLabel {
     static final int BALL_WIDTH = 20;
     static final int BALL_HEIGHT = 20;
     final static int BASIC_VEL = 7;
-    int CX = 10;
-    int CY = 10;
+    static int CX = 10;
+    static int CY = 10;
+    private static int originalCX;
+    private static int originalCY;
     public static Integer[] possibleSpeedX = {-10,10};
     public static Integer[] possibleSpeedY = {-10,10};
     
-    java.util.Random random = new java.util.Random();
+    static java.util.Random random = new java.util.Random();
 
     private int diameter;
     private Color ballColor;
@@ -23,7 +25,7 @@ public class Ball extends JLabel {
         this.setPreferredSize(new Dimension(diameter, diameter));
         this.setOpaque(true);
         this.setBackground(ballColor);
-        getRandomSpeed();
+        getRandomSpeed(possibleSpeedX,possibleSpeedY);
     }
 
     @Override
@@ -42,15 +44,29 @@ public class Ball extends JLabel {
         this.setLocation(x, y);
     }
 
-    public void getRandomSpeed()
+    public static void freezeBall()
     {
-        CX = possibleSpeedX[random.nextInt(possibleSpeedX.length)];
-        CY = possibleSpeedY[random.nextInt(possibleSpeedY.length)];
+        Integer[] freezeSpeed = {0};
+        originalCX = CX;
+        originalCY = CY;
+        Ball.getRandomSpeed(freezeSpeed, freezeSpeed);
+    }
+
+    public static void unfreezeBall()
+    {
+        CX = originalCX;
+        CY = originalCY;
+    }
+
+    public static void getRandomSpeed(Integer[] speedArrX, Integer[] speedArrY)
+    {
+        CX = speedArrX[random.nextInt(speedArrX.length)];
+        CY = speedArrY[random.nextInt(speedArrY.length)];
     }
 
     public void centerBall() {
         this.setBounds(520, 300, BALL_WIDTH, BALL_HEIGHT);
-        getRandomSpeed();
+        getRandomSpeed(possibleSpeedX,possibleSpeedY);
     }
 
     public void bounceOffEdges() {
