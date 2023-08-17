@@ -56,7 +56,6 @@ public class Menu extends Container {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Game.setCurrentDifficulty(0);
-                System.out.println(Difficulty.getDifficultyName(Game.getCurrentDifficulty()));
                 Game.setState(GameState.PLAY);
             }
         });
@@ -64,7 +63,6 @@ public class Menu extends Container {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Game.setCurrentDifficulty(1);
-                System.out.println(Difficulty.getDifficultyName(Game.getCurrentDifficulty()));
                 Game.setState(GameState.PLAY);
             }
         });
@@ -72,14 +70,12 @@ public class Menu extends Container {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Game.setCurrentDifficulty(2);
-                System.out.println(Difficulty.getDifficultyName(Game.getCurrentDifficulty()));
                 Game.setState(GameState.PLAY);
             }
         });
     }
 
-    public static void hideMenu()
-    {
+    public static void hideMenu() {
         selectLabel.setVisible(false);
         easyButton.setVisible(false);
         mediumButton.setVisible(false);
