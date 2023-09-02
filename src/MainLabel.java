@@ -16,6 +16,11 @@ public class MainLabel extends JLabel {
         this.setText(currentText);
     }
 
+    public void updateHighScore(){
+        currentText = String.format("%s %d", "Highscore:", Game.highScore);
+        this.setText(currentText);
+    }
+
     public void addToComponent(int x, int y, JFrame component) {
         this.setBounds(x, y, labelWidth, labelHeight);
         component.add(this);

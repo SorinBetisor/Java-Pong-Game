@@ -25,7 +25,7 @@ public class Difficulty {
                 Ball.setPossibleSpeedX(easyBallSpeedX);
                 Ball.setPossibleSpeedY(easyBallSpeedY);
                 Player.setBASIC_VEL(14);
-                Player.setBOT_VEL(9);
+                Player.setBOT_VEL(7);
                 break;
             case MEDIUM:
                 Integer[] mediumBallSpeedX = { -10, 10 };

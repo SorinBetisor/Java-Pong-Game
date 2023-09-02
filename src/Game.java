@@ -24,6 +24,7 @@ public class Game implements KeyListener {
     private static int ballStartingY = Window.getSCREEN_HEIGHT() / 2 - Ball.getBallHeight() / 2;
 
     public static int score = 0;
+    public static int highScore = 0;
     public static boolean win = false;
     public static boolean loose = false;
 
@@ -35,6 +36,7 @@ public class Game implements KeyListener {
     private MainLabel looseLabel = new MainLabel("You lost :(");
     private MainLabel descriptiveLooseLabel = new MainLabel("Press 'R' to restart");
     private MainLabel pauseLabel = new MainLabel("PAUSED");
+    private MainLabel highScoreLabel = new MainLabel("High score: 0");
 
     Game() {
         window = new Window();
@@ -56,6 +58,10 @@ public class Game implements KeyListener {
         scoreLabel.setForeground(Color.YELLOW);
         scoreLabel.setFont(new Font("Serif", Font.BOLD, 20));
         scoreLabel.addToComponent(500, 0, window);
+
+        highScoreLabel.setForeground(Color.YELLOW.darker());
+        highScoreLabel.setFont(new Font("Serif",Font.ITALIC,14));
+        highScoreLabel.addToComponent(500,20,window);
 
         looseLabel.setForeground(Color.RED);
         looseLabel.setFont(new Font("Serif", Font.BOLD, 40));
@@ -95,12 +101,15 @@ public class Game implements KeyListener {
                         scoreLabel.updateScore();
                         ball.centerBall();
                         win = false;
+                        highScore= Math.max(score,highScore);
+                        highScoreLabel.updateHighScore();
                     }
 
                     if (loose) {
                         Ball.CX = 0;
                         Ball.CY = 0;
                         Player.stopBot(aiBot);
+                        playerOne.setLocation(70, 270);
                         looseLabel.addToComponent(450, 240, window);
                         descriptiveLooseLabel.addToComponent(460, 280, window);
                         looseLabel.setVisible(true);
